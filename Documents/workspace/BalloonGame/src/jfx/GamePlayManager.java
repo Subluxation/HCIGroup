@@ -8,6 +8,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -23,6 +29,7 @@ public class GamePlayManager
 	private Label livesLabel;
 	private int lives;
 	private int score;
+	private BackgroundImage bI;
 	
 	public GamePlayManager(Stage stage)
 	{
@@ -35,6 +42,12 @@ public class GamePlayManager
 	private void createGameScene()
 	{
 		pane=new Pane();
+		
+		//NEW BACKGROUND
+		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
+				null, null, null, null);
+		pane.setBackground(new Background(bI));
+		
 		gameScene=new Scene(pane,800,800);
 		gameScene.setOnMouseClicked((e)->
 		{
