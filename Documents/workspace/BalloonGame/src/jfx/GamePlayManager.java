@@ -21,6 +21,7 @@ import javafx.util.Duration;
 public class GamePlayManager
 {
 	private Scene gameScene;
+	private Scene mainScene;
 	private Pane pane;
 	private Stage stage;
 	private ArrayList<Balloon> balloons;
@@ -31,9 +32,11 @@ public class GamePlayManager
 	private int score;
 	private BackgroundImage bI;
 	
-	public GamePlayManager(Stage stage)
+	public GamePlayManager(Stage stage, Scene mainScene)
 	{
 		this.stage=stage;
+		this.mainScene = mainScene;
+		
 		balloons=new ArrayList<Balloon>();
 		
 		createGameScene();
@@ -92,7 +95,7 @@ public class GamePlayManager
 	private void quit()
 	{
 		timeline.stop();
-		stage.setScene(null);
+		stage.setScene(mainScene);
 	}
 	
 	public void addBalloon(Balloon b)
