@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -17,6 +18,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -39,6 +41,7 @@ public class BalloonView extends Application
 		box.setSpacing(100);
 		box.setMinSize(pane.getWidth(), pane.getHeight());
 		
+
 		//NEW BACKGROUND
 		BackgroundImage balloonImage= new BackgroundImage(new Image(GamePlayManager.class.getResource("Balloons.png").toExternalForm()),
 						BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
@@ -65,6 +68,9 @@ public class BalloonView extends Application
 		box.getChildren().add(title);
 		box.getChildren().add(playButton);
 		box.getChildren().add(storeButton);
+
+		
+
 		pane.getChildren().add(box);
 		
 		stage.setScene(mainScene);
