@@ -48,7 +48,7 @@ public class GamePlayManager
 		
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
-				null, null, null, null);
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
 		pane.setBackground(new Background(bI));
 		
 		gameScene=new Scene(pane,800,800);

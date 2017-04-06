@@ -43,7 +43,7 @@ public class BalloonView extends Application
 		
 
 		//NEW BACKGROUND
-		BackgroundImage balloonImage= new BackgroundImage(new Image(GamePlayManager.class.getResource("Balloons.png").toExternalForm()),
+		BackgroundImage balloonImage= new BackgroundImage(new Image(GamePlayManager.class.getResource("balloon#2.jpeg").toExternalForm()),
 						BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
 		pane.setBackground(new Background(balloonImage));
 		
@@ -65,6 +65,14 @@ public class BalloonView extends Application
 			
 			manager.start();
 		});
+		storeButton.setOnAction((e)->
+		{
+			//Each button on the menu starts a different manager. The GamePlayManager is the one that is called with the 'play' button 
+			
+			StoreManager storeManage = new StoreManager(stage, mainScene);
+			
+			
+		});
 		box.getChildren().add(title);
 		box.getChildren().add(playButton);
 		box.getChildren().add(storeButton);
@@ -74,6 +82,7 @@ public class BalloonView extends Application
 		pane.getChildren().add(box);
 		
 		stage.setScene(mainScene);
+		stage.setResizable(false);
 		stage.show();
 	}
 	
