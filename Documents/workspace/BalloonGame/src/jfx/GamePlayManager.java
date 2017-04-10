@@ -10,7 +10,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -18,6 +20,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -34,19 +37,40 @@ public class GamePlayManager
 	private int lives;
 	private int score;
 	private BackgroundImage bI;
-	private BufferedWriter bW;
-	private FileWriter fW;
+	private String username;
 	
 	public GamePlayManager(Stage stage, Scene mainScene)
 	{
 		this.stage=stage;
 		this.mainScene = mainScene;
-		bW = null;
-		fW = null;
+		
 		
 		balloons=new ArrayList<Balloon>();
-		
+		//need to create a function that lets user input username for record
+		inputUserName();
 		createGameScene();
+	}
+	//First Prompt User for username before starting game
+	private void inputUserName(){
+		stage.setScene(gameScene);
+		pane = new Pane();
+		VBox box = new VBox();
+		Label name = new Label("Please Enter Username: ");
+		TextField input = new TextField();
+		Button enter = new Button("Enter");
+		box.getChildren().add(name);
+		box.getChildren().add(input);
+		box.getChildren().add(enter);
+		
+		pane.getChildren().add(box);
+		gameScene=new Scene(pane,800,800);
+		stage.setScene(gameScene);
+		enter.setOnAction((e)->
+		{
+			username = input.getText();
+			start();
+		});
+		
 	}
 	
 	private void createGameScene()
@@ -102,22 +126,15 @@ public class GamePlayManager
 	private void quit() throws IOException
 	{
 		timeline.stop();
-		//Writing Score to file
-		/**
-		System.out.print(GamePlayManager.class.getResource("ScoreSheet.txt").toExternalForm() + "\n");
-		try(BufferedWriter bW = new BufferedWriter(new FileWriter(GamePlayManager.class.getResource("ScoreSheet.txt").toExternalForm()))){
-			bW.write(Integer.toString(score) + "\n");
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
+		//add User to HighScore list
 		
-		**/
+		
+		HighScoreManager hsm = new HighScoreManager(stage, mainScene);
+		hsm.addScore(username, score);
 		
 		//Once lives have depleted, send to Game Over screen with option for store, main menu, etc.
 		
-		stage.setScene(mainScene);
+		//stage.setScene(mainScene);
 	}
 	
 	public void addBalloon(Balloon b)
@@ -129,6 +146,8 @@ public class GamePlayManager
 	{
 		lives=3;
 		score=0;
+		
+		
 		stage.setScene(gameScene);
 		
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
@@ -137,6 +156,7 @@ public class GamePlayManager
 	    }));
 	    timeline.setCycleCount(Animation.INDEFINITE);
 	    timeline.play();
+		
 	}
 	
 	public void removeLife() throws IOException

@@ -19,17 +19,20 @@ import javafx.stage.Stage;
 public class HighScoreManager 
 {
 	private Stage stage;
+	private Scene mainScene;
 	private Scene highScoreScene;
 	private ArrayList<HighScore> scoreList;
 	private TableView<HighScore> table;
 	private VBox layout;
 	private ArrayList<ActionListener> listeners;
 	
-	public HighScoreManager(Stage stage)
+	public HighScoreManager(Stage stage, Scene scene)
 	{
 		this.stage=stage;
+		mainScene = scene;
 		
 		scoreList=new ArrayList<HighScore>();
+		
 		listeners=new ArrayList<ActionListener>();
 		
 		createHighScoreScene();
@@ -61,6 +64,9 @@ public class HighScoreManager
 		layout.getChildren().addAll(button,table);
 		
 		highScoreScene=new Scene(layout);
+		//Added
+		layout.setMinSize(800, 800);
+		stage.setScene(highScoreScene);
 	}
 	
 	private void populateTable()
@@ -99,6 +105,8 @@ public class HighScoreManager
 	{
 		writeBackScores();
 		notifyListeners();
+		//return to main menu
+		stage.setScene(mainScene);
 	}
 	
 	private void writeBackScores()

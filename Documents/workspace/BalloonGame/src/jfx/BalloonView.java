@@ -64,7 +64,7 @@ public class BalloonView extends Application
 			
 			GamePlayManager manager=new GamePlayManager(stage, mainScene);
 			
-			manager.start();
+			//manager.start();
 		});
 		storeButton.setOnAction((e)->
 		{
@@ -78,7 +78,7 @@ public class BalloonView extends Application
 		{
 			//Each button on the menu starts a different manager. The StoreManager is the one that is called with the 'Main Menu' button 
 			
-			HighScoreManager hsm = new HighScoreManager(stage);
+			HighScoreManager hsm = new HighScoreManager(stage, mainScene);
 			
 			
 		});

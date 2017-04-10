@@ -49,7 +49,6 @@ public class StoreManager {
 		menu.setText("Main Menu");
 		menu.setOnAction((e)->
 		{
-				//Need to make a Main Menu Object 
 			storeStage.setScene(mainScene);
 			
 		});
