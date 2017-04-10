@@ -1,4 +1,6 @@
 package jfx;
+import java.io.IOException;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -34,7 +36,12 @@ public class Balloon
 		timeline.setOnFinished((e)->
 		{
 			hide();
-			manager.removeLife();
+			try {
+				manager.removeLife();
+			} catch (IOException e1) {
+				
+				e1.printStackTrace();
+			}
 		});
 		
 		KeyValue kv=new KeyValue(circle.centerYProperty(),radius);

@@ -1,5 +1,8 @@
 package jfx;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -31,11 +34,15 @@ public class GamePlayManager
 	private int lives;
 	private int score;
 	private BackgroundImage bI;
+	private BufferedWriter bW;
+	private FileWriter fW;
 	
 	public GamePlayManager(Stage stage, Scene mainScene)
 	{
 		this.stage=stage;
 		this.mainScene = mainScene;
+		bW = null;
+		fW = null;
 		
 		balloons=new ArrayList<Balloon>();
 		
@@ -92,9 +99,24 @@ public class GamePlayManager
 		scoreLabel.setText("Score: "+Integer.toString(score));
 	}
 	
-	private void quit()
+	private void quit() throws IOException
 	{
 		timeline.stop();
+		//Writing Score to file
+		/**
+		System.out.print(GamePlayManager.class.getResource("ScoreSheet.txt").toExternalForm() + "\n");
+		try(BufferedWriter bW = new BufferedWriter(new FileWriter(GamePlayManager.class.getResource("ScoreSheet.txt").toExternalForm()))){
+			bW.write(Integer.toString(score) + "\n");
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+		
+		**/
+		
+		//Once lives have depleted, send to Game Over screen with option for store, main menu, etc.
+		
 		stage.setScene(mainScene);
 	}
 	
@@ -117,7 +139,7 @@ public class GamePlayManager
 	    timeline.play();
 	}
 	
-	public void removeLife()
+	public void removeLife() throws IOException
 	{
 		--lives;
 		livesLabel.setText("Lives: "+Integer.toString(lives));

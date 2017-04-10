@@ -50,6 +50,7 @@ public class BalloonView extends Application
 		
 		Button playButton = new Button("Play");
 		Button storeButton = new Button("Store");
+		Button highScoreButton = new Button("HighScores");
 		Label title = new Label();
 		
 		title.setText("Balloons: The Game");
@@ -67,15 +68,25 @@ public class BalloonView extends Application
 		});
 		storeButton.setOnAction((e)->
 		{
-			//Each button on the menu starts a different manager. The GamePlayManager is the one that is called with the 'play' button 
+			//Each button on the menu starts a different manager. The StoreManager is the one that is called with the 'Main Menu' button 
 			
 			StoreManager storeManage = new StoreManager(stage, mainScene);
 			
 			
 		});
+		highScoreButton.setOnAction((e)->
+		{
+			//Each button on the menu starts a different manager. The StoreManager is the one that is called with the 'Main Menu' button 
+			
+			HighScoreManager hsm = new HighScoreManager(stage);
+			
+			
+		});
 		box.getChildren().add(title);
+		
 		box.getChildren().add(playButton);
 		box.getChildren().add(storeButton);
+		box.getChildren().add(highScoreButton);
 
 		
 
