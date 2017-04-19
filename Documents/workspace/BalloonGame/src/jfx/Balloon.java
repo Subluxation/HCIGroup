@@ -15,6 +15,7 @@ public class Balloon
 	private Pane pane;
 	private GamePlayManager manager;
 	private Timeline timeline;
+	private int lives;
 	
 	public Balloon(Pane pane,GamePlayManager manager)
 	{
@@ -26,6 +27,17 @@ public class Balloon
 		circle=new Circle(radius,generateColor());
 		circle.setCenterX(xPosition);
 		circle.setCenterY(800-radius);
+		circle.setOnMouseClicked((e)->
+		{
+			--lives;
+			
+			if(lives==0)
+			{
+				timeline.stop();
+				pane.getChildren().remove(circle);
+				manager.increaseScore();
+			}
+		});
 		
 		this.pane=pane;
 		pane.getChildren().add(circle);
@@ -35,12 +47,14 @@ public class Balloon
 		timeline.setAutoReverse(false);
 		timeline.setOnFinished((e)->
 		{
-			hide();
-			try {
+			pane.getChildren().remove(circle);
+			try
+			{
 				manager.removeLife();
-			} catch (IOException e1) {
-				
-				e1.printStackTrace();
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
 			}
 		});
 		
@@ -56,37 +70,24 @@ public class Balloon
 		
 		switch(i)
 		{
-			case 0: return Color.AQUA;	
-			case 1: return Color.RED;
-			case 2: return Color.BLUE;
-			case 3: return Color.YELLOW;
-			case 4: return Color.GREEN;
+			case 0: 
+				lives=1;
+				return Color.AQUA;	
+			case 1: 
+				lives=2;
+				return Color.RED;
+			case 2: 
+				lives=1;
+				return Color.BLUE;
+			case 3: 
+				lives=2;
+				return Color.YELLOW;
+			case 4: 
+				lives=1;
+				return Color.GREEN;
 		}
 		
+		lives=1;
 		return Color.BLACK;
-	}
-	
-	public void hide()
-	{
-		pane.getChildren().remove(circle);
-	}
-	
-	public boolean wasHit(double x, double y)
-	{
-		double xCenter=circle.getCenterX();
-		double yCenter=circle.getCenterY();
-		double xDiff=xCenter-x;
-		double yDiff=yCenter-y;
-		double distance=Math.sqrt(xDiff*xDiff+yDiff*yDiff);
-		
-		if(distance<=circle.getRadius())
-		{
-			timeline.stop();
-			return true;
-		}
-		else
-		{
-			return false;
-		}
 	}
 }

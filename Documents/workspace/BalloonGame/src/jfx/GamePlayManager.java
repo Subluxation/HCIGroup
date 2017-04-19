@@ -76,6 +76,14 @@ public class GamePlayManager
 	private void createGameScene()
 	{
 		pane=new Pane();
+		//testing bomb position
+		pane.setOnMouseClicked((e)->
+		{
+			double x=e.getSceneX();
+			double y=e.getSceneY();
+			
+			System.out.println("x: "+x+"       y: "+y);
+		});
 		
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
@@ -83,10 +91,6 @@ public class GamePlayManager
 		pane.setBackground(new Background(bI));
 		
 		gameScene=new Scene(pane,800,800);
-		gameScene.setOnMouseClicked((e)->
-		{
-			checkForHits(e.getSceneX(),e.getSceneY());
-		});
 		
 		scoreLabel=new Label("Score: 0");
 		scoreLabel.setLayoutX(680);
@@ -101,25 +105,9 @@ public class GamePlayManager
 		pane.getChildren().addAll(scoreLabel,livesLabel);
 	}
 	
-	private void checkForHits(double x,double y)
+	public void increaseScore()
 	{
-		ArrayList<Integer> removals=new ArrayList<Integer>();
-		
-		for(int i=0;i<balloons.size();++i)
-		{
-			if(balloons.get(i).wasHit(x, y))
-			{
-				balloons.get(i).hide();
-				removals.add(i);
-			}
-		}
-		
-		for(int i:removals)
-		{
-			balloons.remove(i);
-			++score;
-		}
-		
+		++score;
 		scoreLabel.setText("Score: "+Integer.toString(score));
 	}
 	
