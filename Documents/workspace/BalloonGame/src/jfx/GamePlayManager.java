@@ -5,10 +5,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+
+import javax.imageio.IIOException;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,6 +25,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -38,6 +43,10 @@ public class GamePlayManager
 	private int score;
 	private BackgroundImage bI;
 	private String username;
+	private int bombs;
+	private int freezes;
+	private Label bombLabel;
+	private Label freezeLabel;
 	
 	public GamePlayManager(Stage stage, Scene mainScene)
 	{
@@ -76,14 +85,6 @@ public class GamePlayManager
 	private void createGameScene()
 	{
 		pane=new Pane();
-		//testing bomb position
-		pane.setOnMouseClicked((e)->
-		{
-			double x=e.getSceneX();
-			double y=e.getSceneY();
-			
-			System.out.println("x: "+x+"       y: "+y);
-		});
 		
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
@@ -91,6 +92,25 @@ public class GamePlayManager
 		pane.setBackground(new Background(bI));
 		
 		gameScene=new Scene(pane,800,800);
+		gameScene.setOnKeyReleased((e)->
+		{
+			switch(e.getCode())
+			{
+				case UP:
+					bombEvent();
+					break;
+				case DOWN: 
+					try
+					{
+						//freezeEvent();
+					}
+					catch(Exception ex)
+					{
+						ex.printStackTrace();
+					}
+					break;
+			}
+		});
 		
 		scoreLabel=new Label("Score: 0");
 		scoreLabel.setLayoutX(680);
@@ -102,7 +122,65 @@ public class GamePlayManager
 		livesLabel.setLayoutY(60);
 		livesLabel.setStyle("-fx-font: 24 arial;");
 		
-		pane.getChildren().addAll(scoreLabel,livesLabel);
+		bombLabel=new Label("Bombs: 2");
+		bombLabel.setLayoutX(680);
+		bombLabel.setLayoutY(90);
+		bombLabel.setStyle("-fx-font: 24 arial;");
+		
+		freezeLabel=new Label("Freezes: 2");
+		freezeLabel.setLayoutX(680);
+		freezeLabel.setLayoutY(120);
+		freezeLabel.setStyle("-fx-font: 24 arial;");
+		
+		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel);
+	}
+	
+	private void bombEvent()
+	{
+		if(bombs>0)
+		{
+			for(Balloon b:balloons)
+			{
+				b.getTimeLine().stop();
+				pane.getChildren().remove(b.getCircle());
+				increaseScore();
+			}
+			
+			balloons.clear();
+			--bombs;
+			bombLabel.setText("Bombs: "+Integer.toString(bombs));
+		}
+	}
+	
+	private void freezeEvent() throws InterruptedException 
+	{
+		if(freezes>0)
+		{
+			for(Balloon b:balloons)
+			{
+				b.getTimeLine().pause();
+			}
+			
+			TimeUnit.SECONDS.sleep(3);
+			
+			for(Balloon b:balloons)
+			{
+				b.getTimeLine().play();
+			}
+			
+			--freezes;
+			freezeLabel.setText("Freezes: "+Integer.toString(freezes));
+		}
+	}
+	
+	public void addBalloon(Balloon b)
+	{
+		balloons.add(b);
+	}
+	
+	public void removeBalloon(Balloon b)
+	{
+		balloons.remove(b);
 	}
 	
 	public void increaseScore()
@@ -125,22 +203,19 @@ public class GamePlayManager
 		//stage.setScene(mainScene);
 	}
 	
-	public void addBalloon(Balloon b)
-	{
-		balloons.add(b);
-	}
-	
 	public void start()
 	{
 		lives=3;
 		score=0;
+		bombs=2;
+		freezes=2;
 		
 		
 		stage.setScene(gameScene);
 		
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			Balloon b=new Balloon(pane,this);
-			addBalloon(b);
+			balloons.add(b);
 	    }));
 	    timeline.setCycleCount(Animation.INDEFINITE);
 	    timeline.play();

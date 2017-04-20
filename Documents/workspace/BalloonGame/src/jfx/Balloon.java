@@ -1,6 +1,7 @@
 package jfx;
 import java.io.IOException;
 
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,9 +34,14 @@ public class Balloon
 			
 			if(lives==0)
 			{
-				timeline.stop();
+				if(timeline.getStatus()!=Status.STOPPED)
+				{
+					timeline.stop();
+				}
+				
 				pane.getChildren().remove(circle);
 				manager.increaseScore();
+				manager.removeBalloon(this);
 			}
 		});
 		
@@ -62,6 +68,16 @@ public class Balloon
 		KeyFrame kf=new KeyFrame(Duration.millis(Math.random()*3000+3000),kv);
 		timeline.getKeyFrames().add(kf);
 		timeline.play();
+	}
+	
+	public Timeline getTimeLine()
+	{
+		return timeline;
+	}
+	
+	public Circle getCircle()
+	{
+		return circle;
 	}
 	
 	private Color generateColor()
