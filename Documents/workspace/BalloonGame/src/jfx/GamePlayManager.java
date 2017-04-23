@@ -12,6 +12,7 @@ import javax.imageio.IIOException;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,6 +33,7 @@ import javafx.util.Duration;
 public class GamePlayManager
 {
 	private Scene gameScene;
+	private Scene waveScene;
 	private Scene mainScene;
 	private Pane pane;
 	private Stage stage;
@@ -41,6 +43,9 @@ public class GamePlayManager
 	private Label livesLabel;
 	private int lives;
 	private int score;
+	private int wave;
+	private int time;
+	private int[] waves;
 	private BackgroundImage bI;
 	private String username;
 	private int bombs;
@@ -52,7 +57,13 @@ public class GamePlayManager
 	{
 		this.stage=stage;
 		this.mainScene = mainScene;
-		
+		this.wave = 0;
+		this.waves = new int[]{30, 45, 60};
+
+		lives=3;
+		score=0;
+		bombs=2;
+		freezes=2;
 		
 		balloons=new ArrayList<Balloon>();
 		//need to create a function that lets user input username for record
@@ -61,7 +72,6 @@ public class GamePlayManager
 	}
 	//First Prompt User for username before starting game
 	private void inputUserName(){
-		stage.setScene(gameScene);
 		pane = new Pane();
 		VBox box = new VBox();
 		Label name = new Label("Please Enter Username: ");
@@ -112,22 +122,22 @@ public class GamePlayManager
 			}
 		});
 		
-		scoreLabel=new Label("Score: 0");
+		scoreLabel=new Label("Score: " + score);
 		scoreLabel.setLayoutX(680);
 		scoreLabel.setLayoutY(30);
 		scoreLabel.setStyle("-fx-font: 24 arial;");
 		
-		livesLabel=new Label("Lives: 3");
+		livesLabel=new Label("Lives: " + lives);
 		livesLabel.setLayoutX(680);
 		livesLabel.setLayoutY(60);
 		livesLabel.setStyle("-fx-font: 24 arial;");
 		
-		bombLabel=new Label("Bombs: 2");
+		bombLabel=new Label("Bombs: " + bombs);
 		bombLabel.setLayoutX(680);
 		bombLabel.setLayoutY(90);
 		bombLabel.setStyle("-fx-font: 24 arial;");
 		
-		freezeLabel=new Label("Freezes: 2");
+		freezeLabel=new Label("Freezes: " + freezes);
 		freezeLabel.setLayoutX(680);
 		freezeLabel.setLayoutY(120);
 		freezeLabel.setStyle("-fx-font: 24 arial;");
@@ -204,22 +214,40 @@ public class GamePlayManager
 	}
 	
 	public void start()
-	{
-		lives=3;
-		score=0;
-		bombs=2;
-		freezes=2;
-		
-		
+	{	
 		stage.setScene(gameScene);
 		
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-			Balloon b=new Balloon(pane,this);
-			balloons.add(b);
+			time++;
+			if (time == waves[wave])
+			{
+				timeline.stop();
+				for (Balloon b: balloons)
+				{
+					b.getTimeLine().stop();
+					pane.getChildren().remove(b.getCircle());
+				}
+				balloons.clear();
+				if (wave == 2)
+				{
+					try {
+						quit();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else
+					changeWave();
+			}
+			else
+			{
+				Balloon b=new Balloon(pane,this);
+				balloons.add(b);
+			}
 	    }));
 	    timeline.setCycleCount(Animation.INDEFINITE);
 	    timeline.play();
-		
 	}
 	
 	public void removeLife() throws IOException
@@ -231,5 +259,34 @@ public class GamePlayManager
 		{
 			quit();
 		}
+	}
+	
+	public void changeWave()
+	{
+		time = 0;
+		wave++;
+		Pane pane = new Pane();
+		pane.setBackground(new Background(bI));
+		waveScene = new Scene(pane, 800, 800);
+		
+		Label status = new Label("Congratulations! Wave " + wave +  " completed!");
+		status.setLayoutX(200);
+		status.setLayoutY(60);
+		status.setStyle("-fx-font: 24 arial;");
+		
+		Label currentScore = new Label(scoreLabel.getText());
+		currentScore.setLayoutX(200);
+		currentScore.setLayoutY(100);
+		currentScore.setStyle("-fx-font: 24 arial;");
+		
+		Button play = new Button("Continue");
+		play.setLayoutX(350);
+		play.setLayoutY(400);
+		play.setOnAction((e) ->
+		{
+			start();
+		});
+		pane.getChildren().addAll(status, currentScore, play);
+		stage.setScene(waveScene);
 	}
 }

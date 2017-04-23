@@ -1,9 +1,6 @@
+Anthony:19
+l:17
 John:10
-Spencer:3
-honnu:3
-Test:2
-guyt:2
-non:0
-huh:0
-jim:0
-joh:0
+l:9
+l:7
+l:3
