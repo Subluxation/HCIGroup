@@ -58,7 +58,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{30, 45, 60};
+		this.waves = new int[]{3, 45, 60};
 
 		lives=3;
 		score=0;
@@ -286,7 +286,15 @@ public class GamePlayManager
 		{
 			start();
 		});
-		pane.getChildren().addAll(status, currentScore, play);
+		
+		Button store = new Button("Store");
+		store.setLayoutX(350);
+		store.setLayoutY(500);
+		store.setOnAction(e -> {
+			StoreManager storeManage = new StoreManager(stage, this);
+		});
+		
+		pane.getChildren().addAll(status, currentScore, play, store);
 		stage.setScene(waveScene);
 	}
 }

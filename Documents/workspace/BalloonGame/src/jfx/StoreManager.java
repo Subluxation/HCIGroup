@@ -18,14 +18,14 @@ public class StoreManager {
 
 	private Stage storeStage;
 	private Scene storeScene;
-	private Scene mainScene;
+	private GamePlayManager manager;
 	private Pane pane;
 	private BackgroundImage storeImage;
 	
 	
-	public StoreManager(Stage stage, Scene scene){
+	public StoreManager(Stage stage, GamePlayManager manager){
 		storeStage = stage;
-		mainScene = scene;
+		this.manager = manager;
 		
 		
 		createStoreScreen();
@@ -38,22 +38,22 @@ public class StoreManager {
 		
 		VBox box = new VBox();
 		Label credits = new Label();
-		Button menu = new Button();
+		Button play = new Button();
 		
 		box.setAlignment(Pos.TOP_RIGHT);
 		box.setSpacing(5);
-		box.setMinSize(mainScene.getWidth(), mainScene.getHeight());
+		box.setMinSize(800, 800);
 		
 	
 		
-		menu.setText("Main Menu");
-		menu.setOnAction((e)->
+		play.setText("Continue");
+		play.setOnAction((e)->
 		{
-			storeStage.setScene(mainScene);
+			manager.start();
 			
 		});
 		
-		box.getChildren().add(menu);
+		box.getChildren().add(play);
 		
 		
 		storeImage =new BackgroundImage(new Image(GamePlayManager.class.getResource("Store.png").toExternalForm()),
