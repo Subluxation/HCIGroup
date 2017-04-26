@@ -25,12 +25,15 @@ public class Balloon
 		int radius = (int)(Math.random()*31)+20;
 		int xPosition=(int)(Math.random()*(800-2*radius))+radius;
 		
-		circle=new Circle(radius,generateColor());
+		lives=(int)(Math.random()*5)+1;
+		
+		circle=new Circle(radius,generateColor(lives));
 		circle.setCenterX(xPosition);
 		circle.setCenterY(800-radius);
 		circle.setOnMouseClicked((e)->
 		{
 			--lives;
+			circle.setFill(generateColor(lives));
 			
 			if(lives==0)
 			{
@@ -80,30 +83,21 @@ public class Balloon
 		return circle;
 	}
 	
-	private Color generateColor()
+	private Color generateColor(int lives)
 	{
-		int i=(int)(Math.random()*5);
-		
-		switch(i)
+		switch(lives)
 		{
-			case 0: 
-				lives=1;
-				return Color.AQUA;	
 			case 1: 
-				lives=2;
+				return Color.AQUA;	
+			case 2:
 				return Color.RED;
-			case 2: 
-				lives=1;
-				return Color.BLUE;
 			case 3: 
-				lives=2;
-				return Color.YELLOW;
+				return Color.BLUE;
 			case 4: 
-				lives=1;
+				return Color.YELLOW;
+			case 5: 
 				return Color.GREEN;
 		}
-		
-		lives=1;
 		return Color.BLACK;
 	}
 }
