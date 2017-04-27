@@ -164,14 +164,14 @@ public class GamePlayManager
 		freezeLabel.setStyle("-fx-font: 24 arial;");
 		
 		numMultLabel=new Label("Multipliers: " + mult);
-		numMultLabel.setLayoutX(680);
+		numMultLabel.setLayoutX(660);
 		numMultLabel.setLayoutY(150);
-		numMultLabel.setStyle("-fx-font: 12 arial;");
+		numMultLabel.setStyle("-fx-font: 24 arial;");
 		
 		multLabel=new Label("Multiplier Timer: " + time4Mult);
-		multLabel.setLayoutX(680);
+		multLabel.setLayoutX(608);
 		multLabel.setLayoutY(180);
-		multLabel.setStyle("-fx-font: 12 arial;");
+		multLabel.setStyle("-fx-font: 24 arial;");
 		
 		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel, numMultLabel, multLabel);
 	}
@@ -234,15 +234,24 @@ public class GamePlayManager
 				b.getTimeLine().pause();
 			}
 			
-			TimeUnit.SECONDS.sleep(3);
-			
-			for(Balloon b:balloons)
-			{
-				b.getTimeLine().play();
-			}
-			
-			--freezes;
-			freezeLabel.setText("Freezes: "+Integer.toString(freezes));
+			new Thread( new Runnable() {
+				public void run() {
+					try {
+						TimeUnit.SECONDS.sleep(3);
+						
+						for(Balloon b:balloons)
+						{
+							b.getTimeLine().play();
+						}
+						
+						--freezes;
+						freezeLabel.setText("Freezes: "+Integer.toString(freezes));
+					}
+					catch( InterruptedException ie ) {
+						//ignore
+					}
+				}
+			} ).start();
 		}
 	}
 	
