@@ -1,13 +1,15 @@
 package jfx;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.IIOException;
+import javax.swing.Timer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -50,8 +52,14 @@ public class GamePlayManager
 	private String username;
 	private int bombs;
 	private int freezes;
+	private int mult;
+	private Label multTimer;
+	private int time4Mult;
+	private Label multLabel;
+	private Label numMultLabel;
 	private Label bombLabel;
 	private Label freezeLabel;
+	private boolean multBool;
 	
 	public GamePlayManager(Stage stage, Scene mainScene)
 	{
@@ -62,8 +70,11 @@ public class GamePlayManager
 
 		lives=3;
 		score=0;
+		mult = 1;
 		bombs=2;
 		freezes=2;
+		multBool = false;
+		time4Mult = 0;
 		
 		balloons=new ArrayList<Balloon>();
 		//need to create a function that lets user input username for record
@@ -106,19 +117,29 @@ public class GamePlayManager
 		{
 			switch(e.getCode())
 			{
-				case UP:
+				case Q:
 					bombEvent();
 					break;
-				case DOWN: 
+				case W: 
 					try
 					{
-						//freezeEvent();
+						freezeEvent();
 					}
 					catch(Exception ex)
 					{
 						ex.printStackTrace();
 					}
 					break;
+				case E:
+				try {
+					multiplierEvent();
+					} 
+					catch (InterruptedException e1) {
+						
+						e1.printStackTrace();
+					}
+						break;
+					
 			}
 		});
 		
@@ -142,7 +163,17 @@ public class GamePlayManager
 		freezeLabel.setLayoutY(120);
 		freezeLabel.setStyle("-fx-font: 24 arial;");
 		
-		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel);
+		numMultLabel=new Label("Multipliers: " + mult);
+		numMultLabel.setLayoutX(680);
+		numMultLabel.setLayoutY(150);
+		numMultLabel.setStyle("-fx-font: 12 arial;");
+		
+		multLabel=new Label("Multiplier Timer: " + time4Mult);
+		multLabel.setLayoutX(680);
+		multLabel.setLayoutY(180);
+		multLabel.setStyle("-fx-font: 12 arial;");
+		
+		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel, numMultLabel, multLabel);
 	}
 	
 	private void bombEvent()
@@ -153,12 +184,44 @@ public class GamePlayManager
 			{
 				b.getTimeLine().stop();
 				pane.getChildren().remove(b.getCircle());
-				increaseScore();
+				if(multBool == false){
+					increaseScore();
+				}
+				else{
+					increaseScore();
+					increaseScore();
+				}
+				
 			}
 			
 			balloons.clear();
 			--bombs;
 			bombLabel.setText("Bombs: "+Integer.toString(bombs));
+		}
+	}
+	
+	private void multiplierEvent() throws InterruptedException
+	{
+		
+		time4Mult = 15;
+		
+		if(mult > 0){
+			--mult;
+			numMultLabel.setText("Multipliers: " + mult);
+			multBool = true;
+			multLabel.setText("Multiplier Timer: " + time4Mult);
+			Thread thread = new Thread();
+			thread.start();
+			while(time4Mult != 0){
+				//Timer set for 1 second
+				TimeUnit.SECONDS.sleep(1); //NOT WORKING CORRECTLY....
+				--time4Mult;
+				multLabel.setText("Multiplier Timer: " + time4Mult);
+			}
+			//time4Mult = 0;
+			multLabel.setText("Multiplier Timer: " + time4Mult);
+			multBool = false;
+			
 		}
 	}
 	
@@ -233,7 +296,7 @@ public class GamePlayManager
 					try {
 						quit();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 				}
