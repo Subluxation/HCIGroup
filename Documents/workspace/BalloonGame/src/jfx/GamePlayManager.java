@@ -166,12 +166,12 @@ public class GamePlayManager
 		numMultLabel=new Label("Multipliers: " + mult);
 		numMultLabel.setLayoutX(660);
 		numMultLabel.setLayoutY(150);
-		numMultLabel.setStyle("-fx-font: 24 arial;");
+		numMultLabel.setStyle("-fx-font: 18 arial;");
 
 		multLabel=new Label("Multiplier Timer: " + time4Mult);
 		multLabel.setLayoutX(608);
 		multLabel.setLayoutY(180);
-		multLabel.setStyle("-fx-font: 24 arial;");
+		multLabel.setStyle("-fx-font: 18 arial;");
 
 		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel, numMultLabel, multLabel);
 	}
@@ -202,31 +202,32 @@ public class GamePlayManager
 
 	private void multiplierEvent() throws InterruptedException
 	{
-
-		
-
 		if(mult > 0){
 			time4Mult = 15;
 			--mult;
 			numMultLabel.setText("Multipliers: " + mult);
 			multBool = true;
 			multLabel.setText("Multiplier Timer: " + time4Mult);
-			//Still working on Timer.....
-			new Thread( new Runnable() {
-				public void run() {
-					try {
-						while(time4Mult != 0){
+			//TODO: While statement in question
+			while(time4Mult != 0){
+				
+				new Thread( new Runnable() {
+					public void run() {
+						try {
+
 							TimeUnit.SECONDS.sleep(1); 
 							--time4Mult;
 							multLabel.setText("Multiplier Timer: " + time4Mult);
-						}
-					}
-					catch( InterruptedException ie ) {
-						//ignore
-					}
-				}
-			} ).start();
 
+						}
+						catch( InterruptedException ie ) {
+							//ignore
+						}
+
+					}
+				} ).start();//read start()
+				
+			}
 
 			multLabel.setText("Multiplier Timer: " + time4Mult);
 			multBool = false;
