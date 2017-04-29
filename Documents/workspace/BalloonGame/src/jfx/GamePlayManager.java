@@ -60,7 +60,7 @@ public class GamePlayManager
 	private Label bombLabel;
 	private Label freezeLabel;
 	private boolean multBool;
-	
+
 	public GamePlayManager(Stage stage, Scene mainScene)
 	{
 		this.stage=stage;
@@ -75,7 +75,7 @@ public class GamePlayManager
 		freezes=2;
 		multBool = false;
 		time4Mult = 0;
-		
+
 		balloons=new ArrayList<Balloon>();
 		//need to create a function that lets user input username for record
 		inputUserName();
@@ -91,7 +91,7 @@ public class GamePlayManager
 		box.getChildren().add(name);
 		box.getChildren().add(input);
 		box.getChildren().add(enter);
-		
+
 		pane.getChildren().add(box);
 		gameScene=new Scene(pane,800,800);
 		stage.setScene(gameScene);
@@ -100,82 +100,82 @@ public class GamePlayManager
 			username = input.getText();
 			start();
 		});
-		
+
 	}
-	
+
 	private void createGameScene()
 	{
 		pane=new Pane();
-		
+
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
 		pane.setBackground(new Background(bI));
-		
+
 		gameScene=new Scene(pane,800,800);
 		gameScene.setOnKeyReleased((e)->
 		{
 			switch(e.getCode())
 			{
-				case Q:
-					bombEvent();
-					break;
-				case W: 
-					try
-					{
-						freezeEvent();
-					}
-					catch(Exception ex)
-					{
-						ex.printStackTrace();
-					}
-					break;
-				case E:
+			case Q:
+				bombEvent();
+				break;
+			case W: 
+				try
+				{
+					freezeEvent();
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+				break;
+			case E:
 				try {
 					multiplierEvent();
-					} 
-					catch (InterruptedException e1) {
-						
-						e1.printStackTrace();
-					}
-						break;
-					
+				} 
+				catch (InterruptedException e1) {
+
+					e1.printStackTrace();
+				}
+				break;
+
 			}
 		});
-		
+
 		scoreLabel=new Label("Score: " + score);
 		scoreLabel.setLayoutX(680);
 		scoreLabel.setLayoutY(30);
 		scoreLabel.setStyle("-fx-font: 24 arial;");
-		
+
 		livesLabel=new Label("Lives: " + lives);
 		livesLabel.setLayoutX(680);
 		livesLabel.setLayoutY(60);
 		livesLabel.setStyle("-fx-font: 24 arial;");
-		
+
 		bombLabel=new Label("Bombs: " + bombs);
 		bombLabel.setLayoutX(680);
 		bombLabel.setLayoutY(90);
 		bombLabel.setStyle("-fx-font: 24 arial;");
-		
+
 		freezeLabel=new Label("Freezes: " + freezes);
 		freezeLabel.setLayoutX(680);
 		freezeLabel.setLayoutY(120);
 		freezeLabel.setStyle("-fx-font: 24 arial;");
-		
+
 		numMultLabel=new Label("Multipliers: " + mult);
 		numMultLabel.setLayoutX(660);
 		numMultLabel.setLayoutY(150);
 		numMultLabel.setStyle("-fx-font: 24 arial;");
-		
+
 		multLabel=new Label("Multiplier Timer: " + time4Mult);
 		multLabel.setLayoutX(608);
 		multLabel.setLayoutY(180);
 		multLabel.setStyle("-fx-font: 24 arial;");
-		
+
 		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel, numMultLabel, multLabel);
 	}
-	
+
 	private void bombEvent()
 	{
 		if(bombs>0)
@@ -191,40 +191,49 @@ public class GamePlayManager
 					increaseScore();
 					increaseScore();
 				}
-				
+
 			}
-			
+
 			balloons.clear();
 			--bombs;
 			bombLabel.setText("Bombs: "+Integer.toString(bombs));
 		}
 	}
-	
+
 	private void multiplierEvent() throws InterruptedException
 	{
+
 		
-		time4Mult = 15;
-		
+
 		if(mult > 0){
+			time4Mult = 15;
 			--mult;
 			numMultLabel.setText("Multipliers: " + mult);
 			multBool = true;
 			multLabel.setText("Multiplier Timer: " + time4Mult);
-			Thread thread = new Thread();
-			thread.start();
-			while(time4Mult != 0){
-				//Timer set for 1 second
-				TimeUnit.SECONDS.sleep(1); //NOT WORKING CORRECTLY....
-				--time4Mult;
-				multLabel.setText("Multiplier Timer: " + time4Mult);
-			}
-			//time4Mult = 0;
+			//Still working on Timer.....
+			new Thread( new Runnable() {
+				public void run() {
+					try {
+						while(time4Mult != 0){
+							TimeUnit.SECONDS.sleep(1); 
+							--time4Mult;
+							multLabel.setText("Multiplier Timer: " + time4Mult);
+						}
+					}
+					catch( InterruptedException ie ) {
+						//ignore
+					}
+				}
+			} ).start();
+
+
 			multLabel.setText("Multiplier Timer: " + time4Mult);
 			multBool = false;
-			
+
 		}
 	}
-	
+
 	private void freezeEvent() throws InterruptedException 
 	{
 		if(freezes>0)
@@ -233,17 +242,17 @@ public class GamePlayManager
 			{
 				b.getTimeLine().pause();
 			}
-			
+
 			new Thread( new Runnable() {
 				public void run() {
 					try {
 						TimeUnit.SECONDS.sleep(3);
-						
+
 						for(Balloon b:balloons)
 						{
 							b.getTimeLine().play();
 						}
-						
+
 						--freezes;
 						freezeLabel.setText("Freezes: "+Integer.toString(freezes));
 					}
@@ -254,41 +263,41 @@ public class GamePlayManager
 			} ).start();
 		}
 	}
-	
+
 	public void addBalloon(Balloon b)
 	{
 		balloons.add(b);
 	}
-	
+
 	public void removeBalloon(Balloon b)
 	{
 		balloons.remove(b);
 	}
-	
+
 	public void increaseScore()
 	{
 		++score;
 		scoreLabel.setText("Score: "+Integer.toString(score));
 	}
-	
+
 	private void quit() throws IOException
 	{
 		timeline.stop();
 		//add User to HighScore list
-		
-		
+
+
 		HighScoreManager hsm = new HighScoreManager(stage, mainScene);
 		hsm.addScore(username, score);
-		
+
 		//Once lives have depleted, send to Game Over screen with option for store, main menu, etc.
-		
+
 		//stage.setScene(mainScene);
 	}
-	
+
 	public void start()
 	{	
 		stage.setScene(gameScene);
-		
+
 		timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
 			time++;
 			if (time == waves[wave])
@@ -305,7 +314,7 @@ public class GamePlayManager
 					try {
 						quit();
 					} catch (IOException e1) {
-						
+
 						e1.printStackTrace();
 					}
 				}
@@ -317,22 +326,22 @@ public class GamePlayManager
 				Balloon b=new Balloon(pane,this);
 				balloons.add(b);
 			}
-	    }));
-	    timeline.setCycleCount(Animation.INDEFINITE);
-	    timeline.play();
+		}));
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
 	}
-	
+
 	public void removeLife() throws IOException
 	{
 		--lives;
 		livesLabel.setText("Lives: "+Integer.toString(lives));
-		
+
 		if(lives==0)
 		{
 			quit();
 		}
 	}
-	
+
 	public void changeWave()
 	{
 		time = 0;
@@ -340,17 +349,17 @@ public class GamePlayManager
 		Pane pane = new Pane();
 		pane.setBackground(new Background(bI));
 		waveScene = new Scene(pane, 800, 800);
-		
+
 		Label status = new Label("Congratulations! Wave " + wave +  " completed!");
 		status.setLayoutX(200);
 		status.setLayoutY(60);
 		status.setStyle("-fx-font: 24 arial;");
-		
+
 		Label currentScore = new Label(scoreLabel.getText());
 		currentScore.setLayoutX(200);
 		currentScore.setLayoutY(100);
 		currentScore.setStyle("-fx-font: 24 arial;");
-		
+
 		Button play = new Button("Continue");
 		play.setLayoutX(350);
 		play.setLayoutY(400);
@@ -358,14 +367,14 @@ public class GamePlayManager
 		{
 			start();
 		});
-		
+
 		Button store = new Button("Store");
 		store.setLayoutX(350);
 		store.setLayoutY(500);
 		store.setOnAction(e -> {
 			StoreManager storeManage = new StoreManager(stage, this);
 		});
-		
+
 		pane.getChildren().addAll(status, currentScore, play, store);
 		stage.setScene(waveScene);
 	}
