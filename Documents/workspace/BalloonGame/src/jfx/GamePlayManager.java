@@ -6,10 +6,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.IIOException;
-import javax.swing.Timer;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -184,13 +185,7 @@ public class GamePlayManager
 			{
 				b.getTimeLine().stop();
 				pane.getChildren().remove(b.getCircle());
-				if(multBool == false){
-					increaseScore();
-				}
-				else{
-					increaseScore();
-					increaseScore();
-				}
+				increaseScore();
 
 			}
 
@@ -203,31 +198,38 @@ public class GamePlayManager
 	private void multiplierEvent() throws InterruptedException
 	{
 		if(mult > 0){
-			time4Mult = 15;
+			time4Mult = 10;
 			--mult;
 			numMultLabel.setText("Multipliers: " + mult);
 			multBool = true;
 			multLabel.setText("Multiplier Timer: " + time4Mult);
-			//TODO: While statement in question
-			while(time4Mult != 0){
-				
-				new Thread( new Runnable() {
-					public void run() {
+			//TODO: java.lang.IllegalStateException: Not on FX application thread; ERROR
+			new Thread( new Runnable() {
+
+				public void run() {
+					while(time4Mult > 0){
 						try {
 
-							TimeUnit.SECONDS.sleep(1); 
-							--time4Mult;
-							multLabel.setText("Multiplier Timer: " + time4Mult);
+							Platform.runLater(new Runnable() {
+								public void run(){
+									--time4Mult;
+									multBool = true;
+									multLabel.setText("Multiplier Timer: " + time4Mult);
+								}
+							});
+							Thread.sleep(1000);
 
-						}
-						catch( InterruptedException ie ) {
-							//ignore
-						}
 
+
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
-				} ).start();//read start()
-				
-			}
+					multBool = false;
+				}
+			} ).start();//read start()
+
+
 
 			multLabel.setText("Multiplier Timer: " + time4Mult);
 			multBool = false;
@@ -277,7 +279,13 @@ public class GamePlayManager
 
 	public void increaseScore()
 	{
-		++score;
+		if (multBool){
+			score = score + 2;
+		}
+		else{
+			++score;
+		}
+
 		scoreLabel.setText("Score: "+Integer.toString(score));
 	}
 
