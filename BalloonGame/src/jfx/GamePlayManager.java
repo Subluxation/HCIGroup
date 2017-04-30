@@ -3,6 +3,7 @@ package jfx;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -61,6 +64,7 @@ public class GamePlayManager
 	private Label bombLabel;
 	private Label freezeLabel;
 	private boolean multBool;
+	private MediaPlayer mediaPlayer;
 
 	public GamePlayManager(Stage stage, Scene mainScene)
 	{
@@ -84,6 +88,14 @@ public class GamePlayManager
 	}
 	//First Prompt User for username before starting game
 	private void inputUserName(){
+		//SOUND
+		String musicFile = "MainMenu.mp3";     // For example
+
+		Media sound = new Media(new File(musicFile).toURI().toString());
+		mediaPlayer = new MediaPlayer(sound);
+		
+		
+		
 		pane = new Pane();
 		VBox box = new VBox();
 		Label name = new Label("Please Enter Username: ");
@@ -107,7 +119,8 @@ public class GamePlayManager
 	private void createGameScene()
 	{
 		pane=new Pane();
-
+		//SOUND
+		mediaPlayer.play();
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));

@@ -1,6 +1,0 @@
-Anthony:19
-l:17
-John:10
-l:9
-l:7
-l:3
