@@ -93,9 +93,9 @@ public class GamePlayManager
 
 		Media sound = new Media(new File(musicFile).toURI().toString());
 		mediaPlayer = new MediaPlayer(sound);
-		
-		
-		
+
+
+
 		pane = new Pane();
 		VBox box = new VBox();
 		Label name = new Label("Please Enter Username: ");
@@ -121,6 +121,7 @@ public class GamePlayManager
 		pane=new Pane();
 		//SOUND
 		mediaPlayer.play();
+		
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
