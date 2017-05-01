@@ -37,6 +37,7 @@ public class HighScoreManager
 		
 		createHighScoreScene();
 		populateArray();
+		reRank();
 		populateTable();
 	}
 	
@@ -131,6 +132,11 @@ public class HighScoreManager
 	private void reRank()
 	{
 		scoreList.sort(new HighScoreComparator());
+		
+		for(int i=10;i<scoreList.size();++i)
+		{
+			scoreList.remove(i);
+		}
 		
 		for(int i=0;i<scoreList.size();++i)
 		{
