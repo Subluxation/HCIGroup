@@ -61,6 +61,7 @@ public class BalloonView extends Application
 		
 		tutButton.setPadding(new Insets(10, 50, 10, 50));
 		playButton.setPadding(new Insets(10, 50, 10, 50));
+		highScoreButton.setPadding(new Insets(10, 50, 10, 50));
 		playButton.setOnAction((e)->
 		{
 			//Each button on the menu starts a different manager. The GamePlayManager is the one that is called with the 'play' button 
