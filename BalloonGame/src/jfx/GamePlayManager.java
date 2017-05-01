@@ -17,27 +17,35 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GamePlayManager
 {
+	private final int PERFECT = 100;
+	private final int WAVE_COMPLETED = 50;
 	private Scene gameScene;
 	private Scene waveScene;
 	private Scene mainScene;
@@ -52,6 +60,7 @@ public class GamePlayManager
 	private int wave;
 	private int time;
 	private int[] waves;
+	private boolean perfect = true;
 	private BackgroundImage bI;
 	private String username;
 	private int bombs;
@@ -356,6 +365,7 @@ public class GamePlayManager
 
 	public void removeLife() throws IOException
 	{
+		perfect = false;
 		--lives;
 		livesLabel.setText("Lives: "+Integer.toString(lives));
 
@@ -371,34 +381,52 @@ public class GamePlayManager
 		wave++;
 		Pane pane = new Pane();
 		pane.setBackground(new Background(bI));
-		waveScene = new Scene(pane, 800, 800);
 
-		Label status = new Label("Congratulations! Wave " + wave +  " completed!");
-		status.setLayoutX(200);
-		status.setLayoutY(60);
+		waveScene = new Scene(pane, 800, 800);
+		
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setSpacing(100);
+		box.setMinSize(pane.getWidth(), pane.getHeight());
+		
+		Label status;
+		if (perfect == false)
+		{
+			score += 50;
+			status = new Label("Congratulations! Wave " + wave +  " completed!\n"
+					+ "Completed Wave: +50\n"
+					+ "Score: " + score);
+		}
+		else
+		{
+			score += 150;
+			status = new Label("Congratulations! Wave " + wave +  " completed!\n"
+					+ "Completed Wave: +50\n"
+					+ "No Lives Lost: +100\n"
+					+ "Score: " + score);
+		}
+		scoreLabel.setText("Score: "+Integer.toString(score));
+		status.setBackground(new Background(new BackgroundFill(
+				Paint.valueOf("LightSkyBlue"), new CornerRadii(status.getWidth() + 10), new Insets(status.getWidth()-10))));
 		status.setStyle("-fx-font: 24 arial;");
 
-		Label currentScore = new Label(scoreLabel.getText());
-		currentScore.setLayoutX(200);
-		currentScore.setLayoutY(100);
-		currentScore.setStyle("-fx-font: 24 arial;");
-
-		Button play = new Button("Continue");
-		play.setLayoutX(350);
-		play.setLayoutY(400);
+		Image play_image = new Image(getClass().getResourceAsStream("play_icon2.png"), 25, 25, true, false);
+		Button play = new Button("Continue", new ImageView(play_image));
+		play.setStyle("-fx-font: 22 arial; -fx-base: #32cd32");
 		play.setOnAction((e) ->
 		{
 			start();
 		});
 
-		Button store = new Button("Store");
-		store.setLayoutX(350);
-		store.setLayoutY(500);
+		Image store_image = new Image(getClass().getResourceAsStream("store_icon.png"), 25, 25, true, false);
+		Button store = new Button("Store", new ImageView(store_image));
+		store.setStyle("-fx-font: 22 arial; -fx-base: #ffd700");
 		store.setOnAction(e -> {
 			StoreManager storeManage = new StoreManager(stage, this);
 		});
 
-		pane.getChildren().addAll(status, currentScore, play, store);
+		box.getChildren().addAll(status, play, store);
+		pane.getChildren().add(box);
 		stage.setScene(waveScene);
 	}
 }

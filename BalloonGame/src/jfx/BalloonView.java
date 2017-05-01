@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.image.Image;import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -47,10 +47,13 @@ public class BalloonView extends Application
 						BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
 		pane.setBackground(new Background(balloonImage));
 		
-		
-		Button playButton = new Button("Play");
+		Image play_image = new Image(getClass().getResourceAsStream("play_icon2.png"), 25, 25, true, false);
+		Button playButton = new Button("Play", new ImageView(play_image));
+		playButton.setStyle("-fx-font: 22 arial; -fx-base: #32cd32");
 		Button tutButton = new Button("Tutorial");
+		tutButton.setStyle("-fx-font: 20 arial; -fx-base: #d3d3d3");
 		Button highScoreButton = new Button("HighScores");
+		highScoreButton.setStyle("-fx-font: 20 arial; -fx-base: #d3d3d3");
 		Label title = new Label();
 		
 		title.setText("Balloons: The Game");

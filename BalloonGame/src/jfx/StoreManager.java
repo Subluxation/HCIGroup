@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -38,14 +39,14 @@ public class StoreManager {
 		
 		VBox box = new VBox();
 		Label credits = new Label();
-		Button play = new Button();
+		Image play_image = new Image(getClass().getResourceAsStream("play_icon2.png"), 25, 25, true, false);
+		Button play = new Button("Continue", new ImageView(play_image));
 		
 		box.setAlignment(Pos.TOP_RIGHT);
 		box.setSpacing(5);
 		box.setMinSize(800, 800);
 		
-	
-		
+		play.setStyle("-fx-font: 22 arial; -fx-base: #32cd32");
 		play.setText("Continue");
 		play.setOnAction((e)->
 		{
