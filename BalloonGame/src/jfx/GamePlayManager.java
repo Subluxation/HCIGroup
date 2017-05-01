@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{3, 5, 10};
+		this.waves = new int[]{30, 45, 60};
 
 		lives=3;
 		score=0;
@@ -368,6 +368,11 @@ public class GamePlayManager
 		{
 			quit();
 		}
+	}
+	
+	public int getScore()
+	{
+		return score;
 	}
 
 	public void changeWave()

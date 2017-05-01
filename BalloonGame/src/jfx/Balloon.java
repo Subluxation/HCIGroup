@@ -25,7 +25,7 @@ public class Balloon
 		int radius = (int)(Math.random()*31)+20;
 		int xPosition=(int)(Math.random()*(800-2*radius))+radius;
 		
-		lives=(int)(Math.random()*5)+1;
+		lives=(int)(Math.random()*3)+1;
 		
 		circle=new Circle(radius,generateColor(lives));
 		circle.setCenterX(xPosition);
@@ -90,13 +90,9 @@ public class Balloon
 			case 1: 
 				return Color.AQUA;	
 			case 2:
-				return Color.RED;
-			case 3: 
-				return Color.BLUE;
-			case 4: 
-				return Color.YELLOW;
-			case 5: 
 				return Color.GREEN;
+			case 3: 
+				return Color.RED;
 		}
 		return Color.BLACK;
 	}

@@ -64,7 +64,14 @@ public class StoreManager {
 		
 		
 		
-		credits.setText("Credits: XXX");
+		if (manager.getScore() == 1)
+		{
+			credits.setText("Credit: " + manager.getScore());
+		}
+		else
+		{
+			credits.setText("Credits: " + manager.getScore());
+		}
 		credits.setStyle("-fx-font: 44 arial;");
 		
 		box.getChildren().add(credits);
