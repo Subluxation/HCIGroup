@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{30, 45, 60};
+		this.waves = new int[]{10, 20, 30}; //increase numbers for longer game
 
 		lives=3;
 		score=0;

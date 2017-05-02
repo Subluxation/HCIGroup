@@ -25,12 +25,11 @@ public class Balloon
 	{
 		this.manager=manager;
 		//SOUND
-				MediaPlayer mediaP;
-				String mFile = "pop.m4a";     // For example
-
-				Media sound1 = new Media(new File(mFile).toURI().toString());
-				mediaP = new MediaPlayer(sound1);
-				mediaP.setVolume(.5);
+		MediaPlayer mediaP;
+		String mFile = "pop.m4a";     // For example
+		Media sound1 = new Media(new File(mFile).toURI().toString());
+		mediaP = new MediaPlayer(sound1);
+		mediaP.setVolume(.5);
 				
 		int radius = (int)(Math.random()*31)+20;
 		int xPosition=(int)(Math.random()*(800-2*radius))+radius;
