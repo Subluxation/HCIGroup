@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{30, 45, 60};
+		this.waves = new int[]{1, 45, 60};//30,45,60
 
 		lives=3;
 		score=0;
@@ -391,6 +391,27 @@ public class GamePlayManager
 	public int getScore()
 	{
 		return score;
+	}
+	public void reduceScore(int i){
+		score = score - i;
+	}
+	public int getBomb(){
+		return bombs;
+	}
+	public int getFreeze(){
+		return freezes;
+	}
+	public int getMult(){
+		return mult;
+	}
+	public void setBomb(){
+		++bombs;
+	}
+	public void setMult(){
+		++mult;
+	}
+	public void setFreeze(){
+		++freezes;
 	}
 
 	public void changeWave()

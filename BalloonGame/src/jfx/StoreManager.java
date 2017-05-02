@@ -38,9 +38,50 @@ public class StoreManager {
 		
 		
 		VBox box = new VBox();
+		VBox box1 = new VBox();
 		Label credits = new Label();
 		Image play_image = new Image(getClass().getResourceAsStream("play_icon2.png"), 25, 25, true, false);
 		Button play = new Button("Continue", new ImageView(play_image));
+		
+		Button bomb = new Button("Bomb (90 points): " + Integer.toString(manager.getBomb()));
+		Button freeze = new Button("Freeze (50 points): " + Integer.toString(manager.getFreeze()));
+		Button multiplier = new Button("Multiplier (80 points): " + Integer.toString(manager.getMult()));
+		bomb.setLayoutX(100);
+		bomb.setLayoutY(100);
+		
+		
+		bomb.setOnAction((e)->
+		{
+			if ( manager.getScore() > 90){
+				manager.setBomb();
+				manager.reduceScore(90);
+				credits.setText("Credits: " + manager.getScore());
+				bomb.setText("Bomb (90 points): " + Integer.toString(manager.getBomb()));
+			}
+			
+		});
+		multiplier.setOnAction((e)->
+		{
+			if ( manager.getScore() > 80){
+				manager.setMult();
+				manager.reduceScore(80);
+				credits.setText("Credits: " + manager.getScore());
+				multiplier.setText("Multiplier (80 points): " + Integer.toString(manager.getMult()));
+			}
+			
+		});
+		freeze.setOnAction((e)->
+		{
+			if ( manager.getScore() > 50){
+				manager.setFreeze();
+				manager.reduceScore(50);
+				credits.setText("Credits: " + manager.getScore());
+				freeze.setText("Freeze (50 points): " + Integer.toString(manager.getFreeze()));
+			}
+			
+		});
+		
+		
 		
 		box.setAlignment(Pos.TOP_RIGHT);
 		box.setSpacing(5);
@@ -55,6 +96,7 @@ public class StoreManager {
 		});
 		
 		box.getChildren().add(play);
+		box1.getChildren().addAll(bomb,freeze,multiplier);
 		
 		
 		storeImage =new BackgroundImage(new Image(GamePlayManager.class.getResource("Store.png").toExternalForm()),
@@ -76,6 +118,7 @@ public class StoreManager {
 		
 		box.getChildren().add(credits);
 		pane.getChildren().add(box);
+		pane.getChildren().add(box1);
 		
 		storeStage.setResizable(false);
 		
