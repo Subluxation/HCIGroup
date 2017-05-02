@@ -188,14 +188,14 @@ public class GamePlayManager
 		freezeLabel.setStyle("-fx-font: 24 arial;");
 
 		numMultLabel=new Label("Multipliers: " + mult);
-		numMultLabel.setLayoutX(660);
+		numMultLabel.setLayoutX(680);
 		numMultLabel.setLayoutY(150);
-		numMultLabel.setStyle("-fx-font: 18 arial;");
+		numMultLabel.setStyle("-fx-font: 14 arial;");
 
 		multLabel=new Label("Multiplier Timer: " + time4Mult);
-		multLabel.setLayoutX(608);
+		multLabel.setLayoutX(680);
 		multLabel.setLayoutY(180);
-		multLabel.setStyle("-fx-font: 18 arial;");
+		multLabel.setStyle("-fx-font: 14 arial;");
 
 		pane.getChildren().addAll(scoreLabel,livesLabel,bombLabel,freezeLabel, numMultLabel, multLabel);
 	}

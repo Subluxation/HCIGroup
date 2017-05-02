@@ -34,16 +34,16 @@ public class TutorialManager {
 	
 	public void createTutScreen(){
 		pane = new Pane();
-		tutScene =  new Scene(pane,800,800);
+		tutScene =  new Scene(pane,700,700);
 		
 		
 		VBox box = new VBox();
 		Label credits = new Label();
 		Button play = new Button();
 		
-		box.setAlignment(Pos.BASELINE_CENTER);
+		box.setAlignment(Pos.BASELINE_RIGHT);
 		box.setSpacing(5);
-		box.setMinSize(800, 800);
+		box.setMinSize(700, 700);
 		
 	
 		
@@ -57,18 +57,16 @@ public class TutorialManager {
 		box.getChildren().add(play);
 		
 		
-		tutImage =new BackgroundImage(new Image(GamePlayManager.class.getResource("tutScreen.png").toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
+		tutImage =new BackgroundImage(new Image(GamePlayManager.class.getResource("HowToPlay.png").toExternalForm()),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(700,700,false,false,false,false));
 		pane.setBackground(new Background(tutImage));
 		
 		
 		
 		
-		credits.setText("Tutorial");
-		credits.setStyle("-fx-font: 55 arial;");
 		
 		
-		box.getChildren().add(credits);
+		
 		pane.getChildren().add(box);
 		
 		tutStage.setResizable(false);
