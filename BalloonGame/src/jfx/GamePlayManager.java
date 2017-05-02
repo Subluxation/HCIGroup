@@ -109,13 +109,16 @@ public class GamePlayManager
 
 		pane = new Pane();
 		VBox box = new VBox();
+		box.setAlignment(Pos.BASELINE_CENTER);
+		
+		box.setMinSize(pane.getWidth(), pane.getHeight());
 		Label name = new Label("Please Enter Username: ");
 		TextField input = new TextField();
 		Button enter = new Button("Enter");
 		box.getChildren().add(name);
 		box.getChildren().add(input);
 		box.getChildren().add(enter);
-
+		
 		pane.getChildren().add(box);
 		gameScene=new Scene(pane,800,800);
 		stage.setScene(gameScene);

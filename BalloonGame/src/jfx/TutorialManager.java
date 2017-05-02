@@ -34,7 +34,7 @@ public class TutorialManager {
 	
 	public void createTutScreen(){
 		pane = new Pane();
-		tutScene =  new Scene(pane,700,700);
+		tutScene =  new Scene(pane,800,700);
 		
 		
 		VBox box = new VBox();
@@ -58,7 +58,7 @@ public class TutorialManager {
 		
 		
 		tutImage =new BackgroundImage(new Image(GamePlayManager.class.getResource("HowToPlay.png").toExternalForm()),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(700,700,false,false,false,false));
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,700,false,false,false,false));
 		pane.setBackground(new Background(tutImage));
 		
 		
