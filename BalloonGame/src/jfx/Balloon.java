@@ -1,4 +1,5 @@
 package jfx;
+import java.io.File;
 import java.io.IOException;
 
 import javafx.animation.Animation.Status;
@@ -6,6 +7,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -21,7 +24,14 @@ public class Balloon
 	public Balloon(Pane pane,GamePlayManager manager)
 	{
 		this.manager=manager;
-		
+		//SOUND
+				MediaPlayer mediaP;
+				String mFile = "pop.m4a";     // For example
+
+				Media sound1 = new Media(new File(mFile).toURI().toString());
+				mediaP = new MediaPlayer(sound1);
+				mediaP.setVolume(.5);
+				
 		int radius = (int)(Math.random()*31)+20;
 		int xPosition=(int)(Math.random()*(800-2*radius))+radius;
 		
@@ -43,6 +53,7 @@ public class Balloon
 				}
 				
 				pane.getChildren().remove(circle);
+				mediaP.play();
 				manager.increaseScore();
 				manager.removeBalloon(this);
 			}

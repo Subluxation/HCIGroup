@@ -1,5 +1,6 @@
 package jfx;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import javafx.animation.KeyFrame;
@@ -21,6 +22,8 @@ import javafx.scene.layout.BackgroundSize;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -33,7 +36,14 @@ public class BalloonView extends Application
 	public void start(Stage stage) throws Exception 
 	{
 		Pane pane = new Pane();
-		
+		//SOUND
+		MediaPlayer mediaPlayer;
+		String musicFile = "MainMenu.mp3";     // For example
+
+		Media sound = new Media(new File(musicFile).toURI().toString());
+		mediaPlayer = new MediaPlayer(sound);
+		mediaPlayer.setAutoPlay(true);
+		mediaPlayer.play();
 		Scene mainScene = new Scene(pane, 800, 800);
 		
 		VBox box = new VBox();

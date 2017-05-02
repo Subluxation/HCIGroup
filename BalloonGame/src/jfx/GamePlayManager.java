@@ -98,6 +98,8 @@ public class GamePlayManager
 	//First Prompt User for username before starting game
 	private void inputUserName(){
 		//SOUND
+		//SOUND
+		MediaPlayer mediaPlayer;
 		String musicFile = "MainMenu.mp3";     // For example
 
 		Media sound = new Media(new File(musicFile).toURI().toString());
@@ -117,6 +119,7 @@ public class GamePlayManager
 		pane.getChildren().add(box);
 		gameScene=new Scene(pane,800,800);
 		stage.setScene(gameScene);
+		enter.setDefaultButton(true);
 		enter.setOnAction((e)->
 		{
 			username = input.getText();
@@ -128,9 +131,8 @@ public class GamePlayManager
 	private void createGameScene()
 	{
 		pane=new Pane();
-		//SOUND
-		mediaPlayer.play();
-		
+
+
 		//NEW BACKGROUND
 		bI= new BackgroundImage(new Image(GamePlayManager.class.getResource("Clouds.jpeg").toExternalForm()),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(800,800,false,false,false,false));
@@ -202,12 +204,19 @@ public class GamePlayManager
 
 	private void bombEvent()
 	{
+		MediaPlayer mediaP;
+		String mFile = "pop.m4a";     // For example
+
+		Media sound1 = new Media(new File(mFile).toURI().toString());
+		mediaP = new MediaPlayer(sound1);
+		mediaP.setVolume(.75);
 		if(bombs>0)
 		{
 			for(Balloon b:balloons)
 			{
 				b.getTimeLine().stop();
 				pane.getChildren().remove(b.getCircle());
+				mediaP.play();
 				increaseScore();
 
 			}
@@ -272,15 +281,21 @@ public class GamePlayManager
 			new Thread( new Runnable() {
 				public void run() {
 					try {
-						TimeUnit.SECONDS.sleep(3);
+						Thread.sleep(3000);
+						Platform.runLater(new Runnable() {
+							public void run(){
 
-						for(Balloon b:balloons)
-						{
-							b.getTimeLine().play();
-						}
+								for(Balloon b:balloons)
+								{
+									b.getTimeLine().play();
+								}
 
-						--freezes;
-						freezeLabel.setText("Freezes: "+Integer.toString(freezes));
+								--freezes;
+								freezeLabel.setText("Freezes: "+Integer.toString(freezes));
+							}
+						});
+						Thread.sleep(3000);
+
 					}
 					catch( InterruptedException ie ) {
 						//ignore
@@ -369,7 +384,7 @@ public class GamePlayManager
 			quit();
 		}
 	}
-	
+
 	public int getScore()
 	{
 		return score;
@@ -383,12 +398,12 @@ public class GamePlayManager
 		pane.setBackground(new Background(bI));
 
 		waveScene = new Scene(pane, 800, 800);
-		
+
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setSpacing(100);
 		box.setMinSize(pane.getWidth(), pane.getHeight());
-		
+
 		Label status;
 		if (perfect == false)
 		{
@@ -429,19 +444,19 @@ public class GamePlayManager
 		pane.getChildren().add(box);
 		stage.setScene(waveScene);
 	}
-	
+
 	public void finishGame()
 	{
 		Pane pane = new Pane();
 		pane.setBackground(new Background(bI));
 
 		waveScene = new Scene(pane, 800, 800);
-		
+
 		VBox box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setSpacing(100);
 		box.setMinSize(pane.getWidth(), pane.getHeight());
-		
+
 		Label status;
 		if (perfect == false)
 		{
