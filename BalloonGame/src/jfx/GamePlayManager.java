@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{30, 45, 60};//30,45,60
+		this.waves = new int[]{30, 45, 60};
 
 		lives=3;
 		score=0;
@@ -182,17 +182,17 @@ public class GamePlayManager
 		livesLabel.setLayoutY(60);
 		livesLabel.setStyle("-fx-font: 24 arial;");
 
-		bombLabel=new Label("Bombs: " + bombs);
+		bombLabel=new Label("Bombs 'Q' : " + bombs);
 		bombLabel.setLayoutX(680);
 		bombLabel.setLayoutY(90);
-		bombLabel.setStyle("-fx-font: 24 arial;");
+		bombLabel.setStyle("-fx-font: 14 arial;");
 
-		freezeLabel=new Label("Freezes: " + freezes);
+		freezeLabel=new Label("Freezes 'W' : " + freezes);
 		freezeLabel.setLayoutX(680);
 		freezeLabel.setLayoutY(120);
-		freezeLabel.setStyle("-fx-font: 24 arial;");
+		freezeLabel.setStyle("-fx-font: 14 arial;");
 
-		numMultLabel=new Label("Multipliers: " + mult);
+		numMultLabel=new Label("Multipliers 'E' : " + mult);
 		numMultLabel.setLayoutX(680);
 		numMultLabel.setLayoutY(150);
 		numMultLabel.setStyle("-fx-font: 14 arial;");
@@ -226,7 +226,7 @@ public class GamePlayManager
 
 			balloons.clear();
 			--bombs;
-			bombLabel.setText("Bombs: "+Integer.toString(bombs));
+			bombLabel.setText("Bombs 'Q' : "+Integer.toString(bombs));
 		}
 	}
 
@@ -235,7 +235,7 @@ public class GamePlayManager
 		if(mult > 0){
 			time4Mult = 10;
 			--mult;
-			numMultLabel.setText("Multipliers: " + mult);
+			numMultLabel.setText("Multipliers 'E' : " + mult);
 			multBool = true;
 			multLabel.setText("Multiplier Timer: " + time4Mult);
 			//TODO: java.lang.IllegalStateException: Not on FX application thread; ERROR
@@ -294,7 +294,7 @@ public class GamePlayManager
 								}
 
 								--freezes;
-								freezeLabel.setText("Freezes: "+Integer.toString(freezes));
+								freezeLabel.setText("Freezes 'W' : "+Integer.toString(freezes));
 							}
 						});
 						Thread.sleep(3000);
@@ -343,7 +343,11 @@ public class GamePlayManager
 
 		//stage.setScene(mainScene);
 	}
-
+	public void update(){
+		freezeLabel.setText("Freezes 'W' : "+Integer.toString(freezes));
+		bombLabel.setText("Bombs 'Q' : "+Integer.toString(bombs));
+		numMultLabel.setText("Multiplier 'E' : "+Integer.toString(mult));
+	}
 	public void start()
 	{	
 		stage.setScene(gameScene);
@@ -405,13 +409,13 @@ public class GamePlayManager
 		return mult;
 	}
 	public void setBomb(){
-		++bombs;
+		bombs = bombs + 1;
 	}
 	public void setMult(){
-		++mult;
+		mult = mult + 1;
 	}
 	public void setFreeze(){
-		++freezes;
+		freezes = freezes + 1;
 	}
 
 	public void changeWave()

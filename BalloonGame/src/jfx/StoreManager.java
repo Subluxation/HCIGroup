@@ -51,31 +51,34 @@ public class StoreManager {
 		
 		bomb.setOnAction((e)->
 		{
-			if ( manager.getScore() > 90){
+			if ( manager.getScore() >= 90){
 				manager.setBomb();
 				manager.reduceScore(90);
 				credits.setText("Credits: " + manager.getScore());
 				bomb.setText("Bomb (90 points): " + Integer.toString(manager.getBomb()));
+				manager.update();
 			}
 			
 		});
 		multiplier.setOnAction((e)->
 		{
-			if ( manager.getScore() > 80){
+			if ( manager.getScore() >= 80){
 				manager.setMult();
 				manager.reduceScore(80);
 				credits.setText("Credits: " + manager.getScore());
 				multiplier.setText("Multiplier (80 points): " + Integer.toString(manager.getMult()));
+				manager.update();
 			}
 			
 		});
 		freeze.setOnAction((e)->
 		{
-			if ( manager.getScore() > 50){
+			if ( manager.getScore() >= 50){
 				manager.setFreeze();
 				manager.reduceScore(50);
 				credits.setText("Credits: " + manager.getScore());
 				freeze.setText("Freeze (50 points): " + Integer.toString(manager.getFreeze()));
+				manager.update();
 			}
 			
 		});

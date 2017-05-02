@@ -43,7 +43,7 @@ public class BalloonView extends Application
 		Media sound = new Media(new File(musicFile).toURI().toString());
 		mediaPlayer = new MediaPlayer(sound);
 		mediaPlayer.setAutoPlay(true);
-		mediaPlayer.play();
+		//mediaPlayer.play();
 		Scene mainScene = new Scene(pane, 800, 800);
 		
 		VBox box = new VBox();
