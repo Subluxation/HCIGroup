@@ -46,8 +46,7 @@ public class StoreManager {
 		Button bomb = new Button("Bomb (90 points): " + Integer.toString(manager.getBomb()));
 		Button freeze = new Button("Freeze (50 points): " + Integer.toString(manager.getFreeze()));
 		Button multiplier = new Button("Multiplier (80 points): " + Integer.toString(manager.getMult()));
-		bomb.setLayoutX(100);
-		bomb.setLayoutY(100);
+		
 		
 		
 		bomb.setOnAction((e)->
@@ -80,10 +79,11 @@ public class StoreManager {
 			}
 			
 		});
+		box1.setAlignment(Pos.CENTER);
+		box1.setLayoutY(200);
+		box1.setLayoutX(50);
 		
-		
-		
-		box.setAlignment(Pos.TOP_RIGHT);
+		box.setAlignment(Pos.BASELINE_RIGHT);
 		box.setSpacing(5);
 		box.setMinSize(800, 800);
 		

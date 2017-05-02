@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{1, 45, 60};//30,45,60
+		this.waves = new int[]{30, 45, 60};//30,45,60
 
 		lives=3;
 		score=0;
