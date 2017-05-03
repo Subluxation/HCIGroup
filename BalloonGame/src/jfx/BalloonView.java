@@ -38,7 +38,7 @@ public class BalloonView extends Application
 		Pane pane = new Pane();
 		//SOUND
 		MediaPlayer mediaPlayer;
-		String musicFile = "MainMenu.mp3";     // For example
+		String musicFile = "MainMenu.mp3";    
 
 		Media sound = new Media(new File(musicFile).toURI().toString());
 		mediaPlayer = new MediaPlayer(sound);

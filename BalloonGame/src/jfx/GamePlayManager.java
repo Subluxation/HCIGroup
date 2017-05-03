@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{10, 20, 30}; //increase numbers for longer game
+		this.waves = new int[]{1, 20, 30}; //increase numbers for longer game
 
 		lives=3;
 		score=0;
@@ -346,7 +346,7 @@ public class GamePlayManager
 	public void update(){
 		freezeLabel.setText("Freezes 'W' : "+Integer.toString(freezes));
 		bombLabel.setText("Bombs 'Q' : "+Integer.toString(bombs));
-		numMultLabel.setText("Multiplier 'E' : "+Integer.toString(mult));
+		numMultLabel.setText("Multipliers 'E' : "+Integer.toString(mult));
 	}
 	public void start()
 	{	

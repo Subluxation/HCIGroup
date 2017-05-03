@@ -1,5 +1,6 @@
 package jfx;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -46,7 +47,9 @@ public class StoreManager {
 		Button bomb = new Button("Bomb (90 points): " + Integer.toString(manager.getBomb()));
 		Button freeze = new Button("Freeze (50 points): " + Integer.toString(manager.getFreeze()));
 		Button multiplier = new Button("Multiplier (80 points): " + Integer.toString(manager.getMult()));
-		
+		bomb.setPadding(new Insets(10, 50, 10, 50));
+		freeze.setPadding(new Insets(10, 50, 10, 50));
+		multiplier.setPadding(new Insets(10, 50, 10, 50));
 		
 		
 		bomb.setOnAction((e)->
@@ -82,7 +85,7 @@ public class StoreManager {
 			}
 			
 		});
-		box1.setAlignment(Pos.CENTER);
+		box1.setAlignment(Pos.BASELINE_LEFT);
 		box1.setLayoutY(200);
 		box1.setLayoutX(50);
 		
@@ -99,6 +102,7 @@ public class StoreManager {
 		});
 		
 		box.getChildren().add(play);
+		box1.setSpacing(70);//SPACING
 		box1.getChildren().addAll(bomb,freeze,multiplier);
 		
 		
