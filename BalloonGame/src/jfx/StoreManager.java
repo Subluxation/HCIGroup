@@ -43,10 +43,12 @@ public class StoreManager {
 		Label credits = new Label();
 		Image play_image = new Image(getClass().getResourceAsStream("play_icon2.png"), 25, 25, true, false);
 		Button play = new Button("Continue", new ImageView(play_image));
-		
-		Button bomb = new Button("Bomb (90 points): " + Integer.toString(manager.getBomb()));
-		Button freeze = new Button("Freeze (50 points): " + Integer.toString(manager.getFreeze()));
-		Button multiplier = new Button("Multiplier (80 points): " + Integer.toString(manager.getMult()));
+		Image bomb_image = new Image(getClass().getResourceAsStream("bomb.png"), 30, 30, true, false);
+		Button bomb = new Button("Bomb (90 points): " + Integer.toString(manager.getBomb()), new ImageView(bomb_image));
+		Image freeze_image = new Image(getClass().getResourceAsStream("freeze.png"), 25, 25, true, false);
+		Button freeze = new Button("Freeze (50 points): " + Integer.toString(manager.getFreeze()), new ImageView(freeze_image));
+		Image multiplier_image = new Image(getClass().getResourceAsStream("multiplier.png"), 25, 25, true, false);
+		Button multiplier = new Button("Multiplier (80 points): " + Integer.toString(manager.getMult()), new ImageView(multiplier_image));
 		bomb.setPadding(new Insets(10, 50, 10, 50));
 		freeze.setPadding(new Insets(10, 50, 10, 50));
 		multiplier.setPadding(new Insets(10, 50, 10, 50));

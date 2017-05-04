@@ -80,7 +80,7 @@ public class GamePlayManager
 		this.stage=stage;
 		this.mainScene = mainScene;
 		this.wave = 0;
-		this.waves = new int[]{1, 20, 30}; //increase numbers for longer game
+		this.waves = new int[]{10, 20, 30}; //increase numbers for longer game
 
 		lives=3;
 		score=0;
@@ -332,7 +332,7 @@ public class GamePlayManager
 
 	private void quit() throws IOException
 	{
-		timeline.stop();
+	//	timeline.stop();
 		//add User to HighScore list
 
 
@@ -388,7 +388,7 @@ public class GamePlayManager
 
 		if(lives==0)
 		{
-			quit();
+			gameOver();
 		}
 	}
 
@@ -469,6 +469,44 @@ public class GamePlayManager
 		});
 
 		box.getChildren().addAll(status, play, store);
+		pane.getChildren().add(box);
+		stage.setScene(waveScene);
+	}
+	
+	public void gameOver()
+	{
+		timeline.stop();
+		Pane pane = new Pane();
+		pane.setBackground(new Background(bI));
+
+		waveScene = new Scene(pane, 800, 800);
+
+		VBox box = new VBox();
+		box.setAlignment(Pos.CENTER);
+		box.setSpacing(100);
+		box.setMinSize(pane.getWidth(), pane.getHeight());
+
+		Label status;
+		status = new Label("Game Over! You lost on wave " + wave + "!\n"
+					+ "Score: " + score);
+		scoreLabel.setText("Score: "+Integer.toString(score));
+		status.setBackground(new Background(new BackgroundFill(
+				Paint.valueOf("LightSkyBlue"), new CornerRadii(status.getWidth() + 10), new Insets(status.getWidth()-10))));
+		status.setStyle("-fx-font: 24 arial;");
+
+		Button play = new Button("Finish");
+		play.setStyle("-fx-font: 22 arial; -fx-base: #32cd32");
+		play.setOnAction((e) ->
+		{
+			try {
+				quit();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+		box.getChildren().addAll(status, play);
 		pane.getChildren().add(box);
 		stage.setScene(waveScene);
 	}

@@ -55,7 +55,7 @@ public class HighScoreManager
 		table=new TableView<HighScore>();
 		table.getColumns().addAll(rankColumn,nameColumn,scoreColumn);
 		
-		Button button=new Button("Back");
+		Button button=new Button("Back to Main Screen");
 		button.setOnAction((e)->
 		{
 			quit();
